@@ -1,17 +1,19 @@
 #ifndef LISTA_H
 #define LISTA_H
 
+// Nó genérico que armazena um ponteiro para dado e o próximo elemento
 typedef struct No
 {
   void *dado;
-  struct No *prox;
+  struct No *prox; // Aponta para o próximo nó da lista encadeada
 } No;
 
+// Estrutura da lista, contendo ponteiros para início, fim e controle de tamanho
 typedef struct
 {
   No *inicio;
-  No *fim;
-  int tamanho;
+  No *fim;     // Facilita inserção rápida no final
+  int tamanho; // Quantidade de elementos atualmente na lista
 } Lista;
 
 Lista *criarLista();

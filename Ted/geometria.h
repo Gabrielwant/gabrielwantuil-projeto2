@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+// Enum que identifica qual tipo de forma está armazenada na struct Forma
 typedef enum
 {
   CIRCULO,
@@ -18,6 +19,7 @@ typedef struct
   double y;
 } Ponto;
 
+// Define estilo visual usado especificamente para textos (fonte, peso e tamanho)
 typedef struct
 {
   char family[32];
@@ -25,6 +27,7 @@ typedef struct
   int size;
 } EstiloTexto;
 
+// Estrutura genérica que pode representar círculo, retângulo, linha, texto ou segmento
 typedef struct
 {
   int id;
@@ -85,6 +88,7 @@ int segmentosIntersectam(Ponto p1, Ponto p2, Ponto p3, Ponto p4);
 Ponto intersecaoSegmentos(Ponto p1, Ponto p2, Ponto p3, Ponto p4);
 int pontoNoSegmento(Ponto p, Ponto s1, Ponto s2);
 
+// Estrutura usada para representar um polígono dinâmico de vértices
 typedef struct
 {
   Ponto *vertices;
