@@ -1,4 +1,0 @@
-Região de visibilidade - Bomba de pintura
-Ponto: (350.00, 250.00)
-Cor: red
-Vértices do polígono: 4

@@ -1,4 +1,29 @@
-a 5 6 h
-d 250 200 destruicao
-p 350 250 red pintura
-cln 200 300 50 50 clonagem
+
+a 26 29 h
+a 30 33 v
+a 34 37 h
+
+
+d 200.00 200.00 destruicao-parque
+
+
+p 400.00 250.00 red pintura-centro
+
+
+cln 300.00 420.00 150.00 0.00 clonagem-casas
+
+
+d 390.00 130.00 destruicao-predios
+
+
+p 630.00 200.00 blue pintura-lago
+
+
+cln 350.00 510.00 0.00 -100.00 clonagem-decoracao
+
+
+d 500.00 100.00 destruicao-norte
+p 500.00 100.00 yellow pintura-norte
+
+
+d 100.00 370.00 destruicao-sul

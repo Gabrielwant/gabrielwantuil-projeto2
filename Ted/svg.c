@@ -13,7 +13,7 @@ static void calcularDimensoes(Lista *formas, double *minX, double *minY,
   {
     Forma *forma = (Forma *)no->dado;
 
-    if (!forma->ativo)
+    if (!forma || !forma->ativo)
     {
       no = no->prox;
       continue;
@@ -123,12 +123,35 @@ void gerarSVG(Lista *formas, const char *nomeArquivo)
   fprintf(arquivo, "viewBox=\"%.2f %.2f %.2f %.2f\">\n",
           minX - margem, minY - margem, largura, altura);
 
+  // Adiciona um fundo suave
+  fprintf(arquivo, "  <!-- Fundo -->\n");
+  fprintf(arquivo, "  <rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" ",
+          minX - margem, minY - margem, largura, altura);
+  fprintf(arquivo, "fill=\"#f8f9fa\" stroke=\"none\"/>\n\n");
+
+  // Adiciona definições para sombras e efeitos
+  fprintf(arquivo, "  <!-- Definições de efeitos -->\n");
+  fprintf(arquivo, "  <defs>\n");
+  fprintf(arquivo, "    <filter id=\"sombra\" x=\"-50%%\" y=\"-50%%\" width=\"200%%\" height=\"200%%\">\n");
+  fprintf(arquivo, "      <feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"3\"/>\n");
+  fprintf(arquivo, "      <feOffset dx=\"2\" dy=\"2\" result=\"offsetblur\"/>\n");
+  fprintf(arquivo, "      <feComponentTransfer>\n");
+  fprintf(arquivo, "        <feFuncA type=\"linear\" slope=\"0.3\"/>\n");
+  fprintf(arquivo, "      </feComponentTransfer>\n");
+  fprintf(arquivo, "      <feMerge>\n");
+  fprintf(arquivo, "        <feMergeNode/>\n");
+  fprintf(arquivo, "        <feMergeNode in=\"SourceGraphic\"/>\n");
+  fprintf(arquivo, "      </feMerge>\n");
+  fprintf(arquivo, "    </filter>\n");
+  fprintf(arquivo, "  </defs>\n\n");
+
+  fprintf(arquivo, "  <!-- Formas geométricas -->\n");
   No *no = formas->inicio;
   while (no)
   {
     Forma *forma = (Forma *)no->dado;
 
-    if (!forma->ativo)
+    if (!forma || !forma->ativo)
     {
       no = no->prox;
       continue;
@@ -140,8 +163,9 @@ void gerarSVG(Lista *formas, const char *nomeArquivo)
               forma->dados.circulo.centro.x,
               forma->dados.circulo.centro.y,
               forma->dados.circulo.raio);
-      fprintf(arquivo, "stroke=\"%s\" fill=\"%s\" stroke-width=\"2\"/>\n",
+      fprintf(arquivo, "stroke=\"%s\" fill=\"%s\" stroke-width=\"2\" ",
               forma->corBorda, forma->corPreenchimento);
+      fprintf(arquivo, "filter=\"url(#sombra)\"/>\n");
     }
     else if (forma->tipo == RETANGULO)
     {
@@ -150,8 +174,9 @@ void gerarSVG(Lista *formas, const char *nomeArquivo)
               forma->dados.retangulo.ancora.y,
               forma->dados.retangulo.largura,
               forma->dados.retangulo.altura);
-      fprintf(arquivo, "stroke=\"%s\" fill=\"%s\" stroke-width=\"2\"/>\n",
+      fprintf(arquivo, "stroke=\"%s\" fill=\"%s\" stroke-width=\"2\" ",
               forma->corBorda, forma->corPreenchimento);
+      fprintf(arquivo, "filter=\"url(#sombra)\"/>\n");
     }
     else if (forma->tipo == LINHA || forma->tipo == SEGMENTO)
     {
@@ -160,9 +185,19 @@ void gerarSVG(Lista *formas, const char *nomeArquivo)
               forma->dados.linha.p1.y,
               forma->dados.linha.p2.x,
               forma->dados.linha.p2.y);
-      fprintf(arquivo, "stroke=\"%s\" stroke-width=\"%s\"/>\n",
+      fprintf(arquivo, "stroke=\"%s\" stroke-width=\"%s\" ",
               forma->corBorda,
-              forma->tipo == SEGMENTO ? "3" : "2");
+              forma->tipo == SEGMENTO ? "4" : "2");
+
+      // Segmentos (anteparos) têm visual diferenciado
+      if (forma->tipo == SEGMENTO)
+      {
+        fprintf(arquivo, "stroke-linecap=\"round\" opacity=\"0.8\"/>\n");
+      }
+      else
+      {
+        fprintf(arquivo, "/>\n");
+      }
     }
     else if (forma->tipo == TEXTO)
     {
@@ -191,8 +226,9 @@ void gerarSVG(Lista *formas, const char *nomeArquivo)
               forma->dados.texto.ancora.y);
       fprintf(arquivo, "font-family=\"%s\" font-size=\"%d\" font-weight=\"%s\" ",
               family, forma->dados.texto.estilo.size, weight);
-      fprintf(arquivo, "text-anchor=\"%s\" stroke=\"%s\" fill=\"%s\">%s</text>\n",
-              anchor, forma->corBorda, forma->corPreenchimento,
+      fprintf(arquivo, "text-anchor=\"%s\" stroke=\"%s\" fill=\"%s\" ",
+              anchor, forma->corBorda, forma->corPreenchimento);
+      fprintf(arquivo, "filter=\"url(#sombra)\">%s</text>\n",
               forma->dados.texto.texto);
     }
 
@@ -205,6 +241,12 @@ void gerarSVG(Lista *formas, const char *nomeArquivo)
 
 void desenharRegiaoVisibilidade(Poligono *regiao, const char *nomeArquivo)
 {
+  if (!regiao || regiao->numVertices < 3)
+  {
+    fprintf(stderr, "Erro: região de visibilidade inválida\n");
+    return;
+  }
+
   FILE *arquivo = fopen(nomeArquivo, "w");
   if (!arquivo)
   {
@@ -214,6 +256,7 @@ void desenharRegiaoVisibilidade(Poligono *regiao, const char *nomeArquivo)
 
   double minX = 999999.0, minY = 999999.0;
   double maxX = -999999.0, maxY = -999999.0;
+  double centroX = 0, centroY = 0;
 
   for (int i = 0; i < regiao->numVertices; i++)
   {
@@ -225,7 +268,13 @@ void desenharRegiaoVisibilidade(Poligono *regiao, const char *nomeArquivo)
       minY = regiao->vertices[i].y;
     if (regiao->vertices[i].y > maxY)
       maxY = regiao->vertices[i].y;
+
+    centroX += regiao->vertices[i].x;
+    centroY += regiao->vertices[i].y;
   }
+
+  centroX /= regiao->numVertices;
+  centroY /= regiao->numVertices;
 
   double margem = 50.0;
   double largura = maxX - minX + 2 * margem;
@@ -237,12 +286,77 @@ void desenharRegiaoVisibilidade(Poligono *regiao, const char *nomeArquivo)
   fprintf(arquivo, "viewBox=\"%.2f %.2f %.2f %.2f\">\n",
           minX - margem, minY - margem, largura, altura);
 
+  // Fundo com gradiente
+  fprintf(arquivo, "  <defs>\n");
+  fprintf(arquivo, "    <radialGradient id=\"bgGradient\" cx=\"50%%\" cy=\"50%%\" r=\"50%%\">\n");
+  fprintf(arquivo, "      <stop offset=\"0%%\" style=\"stop-color:#ffffff;stop-opacity:1\" />\n");
+  fprintf(arquivo, "      <stop offset=\"100%%\" style=\"stop-color:#e0e0e0;stop-opacity:1\" />\n");
+  fprintf(arquivo, "    </radialGradient>\n");
+
+  // Gradiente para o polígono de visibilidade
+  fprintf(arquivo, "    <radialGradient id=\"visGradient\" cx=\"%.2f\" cy=\"%.2f\">\n",
+          centroX, centroY);
+  fprintf(arquivo, "      <stop offset=\"0%%\" style=\"stop-color:#ffeb3b;stop-opacity:0.6\" />\n");
+  fprintf(arquivo, "      <stop offset=\"70%%\" style=\"stop-color:#ffc107;stop-opacity:0.4\" />\n");
+  fprintf(arquivo, "      <stop offset=\"100%%\" style=\"stop-color:#ff9800;stop-opacity:0.2\" />\n");
+  fprintf(arquivo, "    </radialGradient>\n");
+
+  // Filtro de brilho para o polígono
+  fprintf(arquivo, "    <filter id=\"brilho\">\n");
+  fprintf(arquivo, "      <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"2\" />\n");
+  fprintf(arquivo, "    </filter>\n");
+  fprintf(arquivo, "  </defs>\n\n");
+
+  // Fundo
+  fprintf(arquivo, "  <rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" ",
+          minX - margem, minY - margem, largura, altura);
+  fprintf(arquivo, "fill=\"url(#bgGradient)\"/>\n\n");
+
+  // Polígono de visibilidade com brilho (camada de fundo)
+  fprintf(arquivo, "  <!-- Região de visibilidade - Brilho -->\n");
   fprintf(arquivo, "  <polygon points=\"");
   for (int i = 0; i < regiao->numVertices; i++)
   {
     fprintf(arquivo, "%.2f,%.2f ", regiao->vertices[i].x, regiao->vertices[i].y);
   }
-  fprintf(arquivo, "\" fill=\"yellow\" fill-opacity=\"0.3\" stroke=\"red\" stroke-width=\"2\"/>\n");
+  fprintf(arquivo, "\" fill=\"url(#visGradient)\" stroke=\"none\" ");
+  fprintf(arquivo, "filter=\"url(#brilho)\" opacity=\"0.5\"/>\n");
+
+  // Polígono de visibilidade principal
+  fprintf(arquivo, "  <!-- Região de visibilidade - Principal -->\n");
+  fprintf(arquivo, "  <polygon points=\"");
+  for (int i = 0; i < regiao->numVertices; i++)
+  {
+    fprintf(arquivo, "%.2f,%.2f ", regiao->vertices[i].x, regiao->vertices[i].y);
+  }
+  fprintf(arquivo, "\" fill=\"url(#visGradient)\" ");
+  fprintf(arquivo, "stroke=\"#ff6f00\" stroke-width=\"3\" ");
+  fprintf(arquivo, "stroke-linejoin=\"round\" stroke-linecap=\"round\"/>\n");
+
+  // Adiciona ponto central (bomba)
+  fprintf(arquivo, "\n  <!-- Ponto de origem (bomba) -->\n");
+  fprintf(arquivo, "  <circle cx=\"%.2f\" cy=\"%.2f\" r=\"8\" ",
+          centroX, centroY);
+  fprintf(arquivo, "fill=\"#ff3d00\" stroke=\"#b71c1c\" stroke-width=\"2\"/>\n");
+
+  // Efeito de explosão ao redor do ponto
+  fprintf(arquivo, "  <circle cx=\"%.2f\" cy=\"%.2f\" r=\"12\" ",
+          centroX, centroY);
+  fprintf(arquivo, "fill=\"none\" stroke=\"#ff6f00\" stroke-width=\"2\" opacity=\"0.6\"/>\n");
+  fprintf(arquivo, "  <circle cx=\"%.2f\" cy=\"%.2f\" r=\"16\" ",
+          centroX, centroY);
+  fprintf(arquivo, "fill=\"none\" stroke=\"#ffa726\" stroke-width=\"1\" opacity=\"0.4\"/>\n");
+
+  // Raios de visibilidade (linhas do centro para os vértices)
+  fprintf(arquivo, "\n  <!-- Raios de visibilidade -->\n");
+  fprintf(arquivo, "  <g opacity=\"0.15\">\n");
+  for (int i = 0; i < regiao->numVertices; i += 3) // Desenha apenas alguns para não poluir
+  {
+    fprintf(arquivo, "    <line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" ",
+            centroX, centroY, regiao->vertices[i].x, regiao->vertices[i].y);
+    fprintf(arquivo, "stroke=\"#ff9800\" stroke-width=\"1\" stroke-dasharray=\"5,5\"/>\n");
+  }
+  fprintf(arquivo, "  </g>\n");
 
   fprintf(arquivo, "</svg>\n");
   fclose(arquivo);

@@ -61,7 +61,7 @@ void parseArgumentos(int argc, char *argv[], Parametros *params)
 
 void construirCaminho(char *destino, const char *dir, const char *arquivo)
 {
-  sprintf(destino, "%s/%s", dir, arquivo);
+  snprintf(destino, 512, "%s/%s", dir, arquivo);
 }
 
 void processarArquivoGeo(const char *caminhoGeo, Lista *formas, EstiloTexto *estilo)
@@ -165,6 +165,14 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
     return;
   }
 
+  // VERIFICAÇÃO CRÍTICA: Se txtOut for NULL, não podemos continuar
+  if (!txtOut)
+  {
+    fprintf(stderr, "ERRO: arquivo de saída TXT não foi aberto corretamente\n");
+    fclose(arquivo);
+    return;
+  }
+
   char linha[1024];
   while (fgets(linha, sizeof(linha), arquivo))
   {
@@ -192,12 +200,20 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
 
         Poligono *regiao = calcularVisibilidade(formas, x, y);
 
+        // VERIFICAÇÃO: Se calcularVisibilidade retornar NULL
+        if (!regiao)
+        {
+          fprintf(stderr, "ERRO: calcularVisibilidade retornou NULL\n");
+          fprintf(txtOut, "ERRO: não foi possível calcular região de visibilidade\n");
+          continue;
+        }
+
         fprintf(txtOut, "Formas destruídas:\n");
         No *no = formas->inicio;
         while (no)
         {
           Forma *forma = (Forma *)no->dado;
-          if (forma->ativo && formaEmRegiao(forma, regiao))
+          if (forma && forma->ativo && formaEmRegiao(forma, regiao))
           {
             fprintf(txtOut, "  ID: %d, Tipo: %s\n", forma->id, obterTipoForma(forma->tipo));
             forma->ativo = 0;
@@ -208,16 +224,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         char caminhoSvg[512];
         if (strcmp(sufixo, "-") == 0)
         {
-          sprintf(caminhoSvg, "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
         }
         else
         {
-          sprintf(caminhoSvg, "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
         char caminhoTxt[512];
-        sprintf(caminhoTxt, "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
+        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
         FILE *txtSufixo = fopen(caminhoTxt, "w");
         if (txtSufixo)
         {
@@ -240,12 +256,19 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
 
         Poligono *regiao = calcularVisibilidade(formas, x, y);
 
+        if (!regiao)
+        {
+          fprintf(stderr, "ERRO: calcularVisibilidade retornou NULL\n");
+          fprintf(txtOut, "ERRO: não foi possível calcular região de visibilidade\n");
+          continue;
+        }
+
         fprintf(txtOut, "Formas pintadas:\n");
         No *no = formas->inicio;
         while (no)
         {
           Forma *forma = (Forma *)no->dado;
-          if (forma->ativo && formaEmRegiao(forma, regiao))
+          if (forma && forma->ativo && formaEmRegiao(forma, regiao))
           {
             fprintf(txtOut, "  ID: %d, Tipo: %s\n", forma->id, obterTipoForma(forma->tipo));
             strcpy(forma->corBorda, cor);
@@ -257,16 +280,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         char caminhoSvg[512];
         if (strcmp(sufixo, "-") == 0)
         {
-          sprintf(caminhoSvg, "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
         }
         else
         {
-          sprintf(caminhoSvg, "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
         char caminhoTxt[512];
-        sprintf(caminhoTxt, "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
+        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
         FILE *txtSufixo = fopen(caminhoTxt, "w");
         if (txtSufixo)
         {
@@ -291,6 +314,13 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
 
         Poligono *regiao = calcularVisibilidade(formas, x, y);
 
+        if (!regiao)
+        {
+          fprintf(stderr, "ERRO: calcularVisibilidade retornou NULL\n");
+          fprintf(txtOut, "ERRO: não foi possível calcular região de visibilidade\n");
+          continue;
+        }
+
         fprintf(txtOut, "Formas clonadas:\n");
         Lista *clones = criarLista();
         No *no = formas->inicio;
@@ -299,7 +329,7 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         while (no)
         {
           Forma *forma = (Forma *)no->dado;
-          if (forma->ativo && formaEmRegiao(forma, regiao))
+          if (forma && forma->ativo && formaEmRegiao(forma, regiao))
           {
             fprintf(txtOut, "  Original ID: %d, Clone ID: %d\n", forma->id, proximoId);
             Forma *clone = clonarForma(forma, proximoId++, dx, dy);
@@ -319,16 +349,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         char caminhoSvg[512];
         if (strcmp(sufixo, "-") == 0)
         {
-          sprintf(caminhoSvg, "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
         }
         else
         {
-          sprintf(caminhoSvg, "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
         char caminhoTxt[512];
-        sprintf(caminhoTxt, "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
+        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
         FILE *txtSufixo = fopen(caminhoTxt, "w");
         if (txtSufixo)
         {
@@ -374,7 +404,7 @@ int main(int argc, char *argv[])
   processarArquivoGeo(caminhoGeo, formas, &estilo);
 
   char caminhoSvgGeo[512];
-  sprintf(caminhoSvgGeo, "%s/%s.svg", params.dirSaida, nomeBase);
+  snprintf(caminhoSvgGeo, sizeof(caminhoSvgGeo), "%s/%s.svg", params.dirSaida, nomeBase);
   gerarSVG(formas, caminhoSvgGeo);
 
   if (params.arquivoQry)
@@ -389,15 +419,23 @@ int main(int argc, char *argv[])
       *ponto = '\0';
 
     char caminhoTxt[512];
-    sprintf(caminhoTxt, "%s/%s-%s.txt", params.dirSaida, nomeBase, nomeQry);
+    snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s.txt", params.dirSaida, nomeBase, nomeQry);
     FILE *txtOut = fopen(caminhoTxt, "w");
+
+    // CORREÇÃO CRÍTICA: Verificar se o arquivo foi aberto
+    if (!txtOut)
+    {
+      fprintf(stderr, "ERRO: não foi possível criar arquivo de saída: %s\n", caminhoTxt);
+      destruirLista(formas, destruirForma);
+      return 1;
+    }
 
     processarArquivoQry(caminhoQry, nomeBase, nomeQry, formas, params.dirSaida, txtOut);
 
     fclose(txtOut);
 
     char caminhoSvgQry[512];
-    sprintf(caminhoSvgQry, "%s/%s-%s.svg", params.dirSaida, nomeBase, nomeQry);
+    snprintf(caminhoSvgQry, sizeof(caminhoSvgQry), "%s/%s-%s.svg", params.dirSaida, nomeBase, nomeQry);
     gerarSVG(formas, caminhoSvgQry);
   }
 

@@ -2,10 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdio.h>
 
 Forma *criarCirculo(int id, double x, double y, double r, const char *corb, const char *corp)
 {
   Forma *forma = (Forma *)malloc(sizeof(Forma));
+  if (!forma)
+  {
+    fprintf(stderr, "ERRO: criarCirculo - falha ao alocar memória\n");
+    return NULL;
+  }
   forma->id = id;
   forma->tipo = CIRCULO;
   forma->ativo = 1;
@@ -20,6 +26,11 @@ Forma *criarCirculo(int id, double x, double y, double r, const char *corb, cons
 Forma *criarRetangulo(int id, double x, double y, double w, double h, const char *corb, const char *corp)
 {
   Forma *forma = (Forma *)malloc(sizeof(Forma));
+  if (!forma)
+  {
+    fprintf(stderr, "ERRO: criarRetangulo - falha ao alocar memória\n");
+    return NULL;
+  }
   forma->id = id;
   forma->tipo = RETANGULO;
   forma->ativo = 1;
@@ -35,6 +46,11 @@ Forma *criarRetangulo(int id, double x, double y, double w, double h, const char
 Forma *criarLinha(int id, double x1, double y1, double x2, double y2, const char *cor)
 {
   Forma *forma = (Forma *)malloc(sizeof(Forma));
+  if (!forma)
+  {
+    fprintf(stderr, "ERRO: criarLinha - falha ao alocar memória\n");
+    return NULL;
+  }
   forma->id = id;
   forma->tipo = LINHA;
   forma->ativo = 1;
@@ -51,6 +67,11 @@ Forma *criarTexto(int id, double x, double y, const char *corb, const char *corp
                   char ancora, const char *txt, EstiloTexto *estilo)
 {
   Forma *forma = (Forma *)malloc(sizeof(Forma));
+  if (!forma)
+  {
+    fprintf(stderr, "ERRO: criarTexto - falha ao alocar memória\n");
+    return NULL;
+  }
   forma->id = id;
   forma->tipo = TEXTO;
   forma->ativo = 1;
@@ -67,6 +88,11 @@ Forma *criarTexto(int id, double x, double y, const char *corb, const char *corp
 Forma *criarSegmento(int id, double x1, double y1, double x2, double y2, const char *cor)
 {
   Forma *forma = (Forma *)malloc(sizeof(Forma));
+  if (!forma)
+  {
+    fprintf(stderr, "ERRO: criarSegmento - falha ao alocar memória\n");
+    return NULL;
+  }
   forma->id = id;
   forma->tipo = SEGMENTO;
   forma->ativo = 1;
@@ -81,7 +107,10 @@ Forma *criarSegmento(int id, double x1, double y1, double x2, double y2, const c
 
 void destruirForma(void *forma)
 {
-  free(forma);
+  if (forma)
+  {
+    free(forma);
+  }
 }
 
 const char *obterTipoForma(TipoForma tipo)
@@ -196,7 +225,20 @@ Ponto intersecaoSegmentos(Ponto p1, Ponto p2, Ponto p3, Ponto p4)
 Poligono *criarPoligono(int capacidadeInicial)
 {
   Poligono *pol = (Poligono *)malloc(sizeof(Poligono));
+  if (!pol)
+  {
+    fprintf(stderr, "ERRO: criarPoligono - falha ao alocar polígono\n");
+    return NULL;
+  }
+
   pol->vertices = (Ponto *)malloc(capacidadeInicial * sizeof(Ponto));
+  if (!pol->vertices)
+  {
+    fprintf(stderr, "ERRO: criarPoligono - falha ao alocar vértices\n");
+    free(pol);
+    return NULL;
+  }
+
   pol->numVertices = 0;
   pol->capacidade = capacidadeInicial;
   return pol;
@@ -204,22 +246,45 @@ Poligono *criarPoligono(int capacidadeInicial)
 
 void adicionarVerticePoligono(Poligono *pol, Ponto p)
 {
+  if (!pol)
+  {
+    fprintf(stderr, "ERRO: adicionarVerticePoligono - polígono é NULL\n");
+    return;
+  }
+
   if (pol->numVertices >= pol->capacidade)
   {
     pol->capacidade *= 2;
-    pol->vertices = (Ponto *)realloc(pol->vertices, pol->capacidade * sizeof(Ponto));
+    Ponto *novosVertices = (Ponto *)realloc(pol->vertices, pol->capacidade * sizeof(Ponto));
+    if (!novosVertices)
+    {
+      fprintf(stderr, "ERRO: adicionarVerticePoligono - falha ao realocar vértices\n");
+      return;
+    }
+    pol->vertices = novosVertices;
   }
   pol->vertices[pol->numVertices++] = p;
 }
 
 void destruirPoligono(Poligono *pol)
 {
-  free(pol->vertices);
-  free(pol);
+  if (pol)
+  {
+    if (pol->vertices)
+    {
+      free(pol->vertices);
+    }
+    free(pol);
+  }
 }
 
 int pontoEmPoligono(Ponto p, Poligono *pol)
 {
+  if (!pol || !pol->vertices || pol->numVertices < 3)
+  {
+    return 0;
+  }
+
   int dentro = 0;
   for (int i = 0, j = pol->numVertices - 1; i < pol->numVertices; j = i++)
   {
