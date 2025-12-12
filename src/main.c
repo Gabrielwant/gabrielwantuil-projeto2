@@ -64,22 +64,17 @@ void construirCaminho(char *destino, const char *dir, const char *arquivo)
   snprintf(destino, 512, "%s/%s", dir, arquivo);
 }
 
-// Extrai apenas o nome base do arquivo sem diretórios e sem extensão
 void extrairNomeBase(const char *caminho, char *nomeBase)
 {
-  // Copia o caminho
   strcpy(nomeBase, caminho);
 
-  // Remove diretórios (pega após a última barra)
   char *ultimaBarra = strrchr(nomeBase, '/');
   if (ultimaBarra)
   {
-    // CORREÇÃO: copiar corretamente até o final da string
-    size_t tamanho = strlen(ultimaBarra + 1) + 1; // +1 para incluir o \0
+    size_t tamanho = strlen(ultimaBarra + 1) + 1;
     memmove(nomeBase, ultimaBarra + 1, tamanho);
   }
 
-  // Remove extensão (remove após o último ponto)
   char *ponto = strrchr(nomeBase, '.');
   if (ponto)
   {
@@ -188,7 +183,6 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
     return;
   }
 
-  // VERIFICAÇÃO CRÍTICA: Se txtOut for NULL, não podemos continuar
   if (!txtOut)
   {
     fprintf(stderr, "ERRO: arquivo de saída TXT não foi aberto corretamente\n");
@@ -209,7 +203,7 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
       char orientacao;
       if (sscanf(linha, "a %d %d %c", &i, &j, &orientacao) == 3)
       {
-        fprintf(txtOut, "Transformando formas %d-%d em anteparos (%c)\n", i, j, orientacao);
+        fprintf(txtOut, "\n=== COMANDO: Transformar anteparos %d-%d (%c) ===\n", i, j, orientacao);
         transformarAnteparos(formas, i, j, orientacao, txtOut);
       }
     }
@@ -219,11 +213,10 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
       char sufixo[64];
       if (sscanf(linha, "d %lf %lf %s", &x, &y, sufixo) == 3)
       {
-        fprintf(txtOut, "\nBomba de destruição em (%.2f, %.2f)\n", x, y);
+        fprintf(txtOut, "\n=== COMANDO: Bomba de destruição em (%.2f, %.2f) ===\n", x, y);
 
         Poligono *regiao = calcularVisibilidade(formas, x, y);
 
-        // VERIFICAÇÃO: Se calcularVisibilidade retornar NULL
         if (!regiao)
         {
           fprintf(stderr, "ERRO: calcularVisibilidade retornou NULL\n");
@@ -231,41 +224,47 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
           continue;
         }
 
-        fprintf(txtOut, "Formas destruídas:\n");
+        fprintf(txtOut, "Região de visibilidade calculada: %d vértices\n", regiao->numVertices);
+        fprintf(txtOut, "\nFormas destruídas:\n");
+
+        int destruidas = 0;
         No *no = formas->inicio;
         while (no)
         {
           Forma *forma = (Forma *)no->dado;
-          if (forma && forma->ativo && formaEmRegiao(forma, regiao))
+          // CORREÇÃO: Não destruir segmentos (anteparos)
+          if (forma && forma->ativo && forma->tipo != SEGMENTO && formaEmRegiao(forma, regiao))
           {
             fprintf(txtOut, "  ID: %d, Tipo: %s\n", forma->id, obterTipoForma(forma->tipo));
             forma->ativo = 0;
+            destruidas++;
           }
           no = no->prox;
         }
 
-        char caminhoSvg[512];
-        if (strcmp(sufixo, "-") == 0)
+        if (destruidas == 0)
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry);
+          fprintf(txtOut, "  Nenhuma forma destruída\n");
         }
-        else
-        {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
-        }
-        desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
-        // TXT com sufixo só se sufixo não for "-"
+        // Desenhar região de visibilidade
         if (strcmp(sufixo, "-") != 0)
         {
+          char caminhoSvg[512];
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg",
+                   dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          desenharRegiaoVisibilidade(regiao, caminhoSvg);
+
           char caminhoTxt[512];
-          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt",
+                   dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
           FILE *txtSufixo = fopen(caminhoTxt, "w");
           if (txtSufixo)
           {
             fprintf(txtSufixo, "Região de visibilidade - Bomba de destruição\n");
             fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
             fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
+            fprintf(txtSufixo, "Formas destruídas: %d\n", destruidas);
             fclose(txtSufixo);
           }
         }
@@ -279,7 +278,7 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
       char cor[64], sufixo[64];
       if (sscanf(linha, "p %lf %lf %s %s", &x, &y, cor, sufixo) == 4)
       {
-        fprintf(txtOut, "\nBomba de pintura em (%.2f, %.2f) - cor: %s\n", x, y, cor);
+        fprintf(txtOut, "\n=== COMANDO: Bomba de pintura em (%.2f, %.2f) - cor: %s ===\n", x, y, cor);
 
         Poligono *regiao = calcularVisibilidade(formas, x, y);
 
@@ -290,36 +289,40 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
           continue;
         }
 
-        fprintf(txtOut, "Formas pintadas:\n");
+        fprintf(txtOut, "Região de visibilidade calculada: %d vértices\n", regiao->numVertices);
+        fprintf(txtOut, "\nFormas pintadas:\n");
+
+        int pintadas = 0;
         No *no = formas->inicio;
         while (no)
         {
           Forma *forma = (Forma *)no->dado;
-          if (forma && forma->ativo && formaEmRegiao(forma, regiao))
+          // CORREÇÃO: Não pintar segmentos (anteparos)
+          if (forma && forma->ativo && forma->tipo != SEGMENTO && formaEmRegiao(forma, regiao))
           {
             fprintf(txtOut, "  ID: %d, Tipo: %s\n", forma->id, obterTipoForma(forma->tipo));
             strcpy(forma->corBorda, cor);
             strcpy(forma->corPreenchimento, cor);
+            pintadas++;
           }
           no = no->prox;
         }
 
-        char caminhoSvg[512];
-        if (strcmp(sufixo, "-") == 0)
+        if (pintadas == 0)
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry);
+          fprintf(txtOut, "  Nenhuma forma pintada\n");
         }
-        else
-        {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
-        }
-        desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
-        // TXT com sufixo só se sufixo não for "-"
         if (strcmp(sufixo, "-") != 0)
         {
+          char caminhoSvg[512];
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg",
+                   dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          desenharRegiaoVisibilidade(regiao, caminhoSvg);
+
           char caminhoTxt[512];
-          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt",
+                   dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
           FILE *txtSufixo = fopen(caminhoTxt, "w");
           if (txtSufixo)
           {
@@ -327,6 +330,7 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
             fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
             fprintf(txtSufixo, "Cor: %s\n", cor);
             fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
+            fprintf(txtSufixo, "Formas pintadas: %d\n", pintadas);
             fclose(txtSufixo);
           }
         }
@@ -340,8 +344,8 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
       char sufixo[64];
       if (sscanf(linha, "cln %lf %lf %lf %lf %s", &x, &y, &dx, &dy, sufixo) == 5)
       {
-        fprintf(txtOut, "\nBomba de clonagem em (%.2f, %.2f) - deslocamento: (%.2f, %.2f)\n",
-                x, y, dx, dy);
+        fprintf(txtOut, "\n=== COMANDO: Bomba de clonagem em (%.2f, %.2f) ===\n", x, y);
+        fprintf(txtOut, "Deslocamento: (%.2f, %.2f)\n", dx, dy);
 
         Poligono *regiao = calcularVisibilidade(formas, x, y);
 
@@ -352,23 +356,38 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
           continue;
         }
 
-        fprintf(txtOut, "Formas clonadas:\n");
+        fprintf(txtOut, "Região de visibilidade calculada: %d vértices\n", regiao->numVertices);
+        fprintf(txtOut, "\nFormas clonadas:\n");
+
         Lista *clones = criarLista();
         No *no = formas->inicio;
         int proximoId = obterProximoId(formas);
+        int numClonadas = 0;
 
         while (no)
         {
           Forma *forma = (Forma *)no->dado;
-          if (forma && forma->ativo && formaEmRegiao(forma, regiao))
+          // CORREÇÃO CRÍTICA: Não clonar segmentos (anteparos)
+          if (forma && forma->ativo && forma->tipo != SEGMENTO && formaEmRegiao(forma, regiao))
           {
-            fprintf(txtOut, "  Original ID: %d, Clone ID: %d\n", forma->id, proximoId);
+            fprintf(txtOut, "  Original - ID: %d, Tipo: %s -> Clone ID: %d\n",
+                    forma->id, obterTipoForma(forma->tipo), proximoId);
             Forma *clone = clonarForma(forma, proximoId++, dx, dy);
-            inserirLista(clones, clone);
+            if (clone)
+            {
+              inserirLista(clones, clone);
+              numClonadas++;
+            }
           }
           no = no->prox;
         }
 
+        if (numClonadas == 0)
+        {
+          fprintf(txtOut, "  Nenhuma forma clonada\n");
+        }
+
+        // Adiciona os clones à lista principal
         no = clones->inicio;
         while (no)
         {
@@ -377,22 +396,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
         }
         free(clones);
 
-        char caminhoSvg[512];
-        if (strcmp(sufixo, "-") == 0)
-        {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry);
-        }
-        else
-        {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
-        }
-        desenharRegiaoVisibilidade(regiao, caminhoSvg);
-
-        // TXT com sufixo só se sufixo não for "-"
         if (strcmp(sufixo, "-") != 0)
         {
+          char caminhoSvg[512];
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg",
+                   dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          desenharRegiaoVisibilidade(regiao, caminhoSvg);
+
           char caminhoTxt[512];
-          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt",
+                   dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
           FILE *txtSufixo = fopen(caminhoTxt, "w");
           if (txtSufixo)
           {
@@ -400,6 +413,7 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
             fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
             fprintf(txtSufixo, "Deslocamento: (%.2f, %.2f)\n", dx, dy);
             fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
+            fprintf(txtSufixo, "Formas clonadas: %d\n", numClonadas);
             fclose(txtSufixo);
           }
         }
@@ -424,11 +438,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  // Construir caminho completo do .geo
   char caminhoGeo[512];
   construirCaminho(caminhoGeo, params.dirEntrada, params.arquivoGeo);
 
-  // Extrair nome base do .geo (sem diretórios, sem extensão)
   char nomeBaseGeo[256];
   extrairNomeBase(params.arquivoGeo, nomeBaseGeo);
 
@@ -437,7 +449,6 @@ int main(int argc, char *argv[])
 
   processarArquivoGeo(caminhoGeo, formas, &estilo);
 
-  // Gerar SVG inicial
   char caminhoSvgGeo[512];
   snprintf(caminhoSvgGeo, sizeof(caminhoSvgGeo), "%s/%s.svg", params.dirSaida, nomeBaseGeo);
   gerarSVG(formas, caminhoSvgGeo);
@@ -450,7 +461,6 @@ int main(int argc, char *argv[])
     char nomeBaseQry[256];
     extrairNomeBase(params.arquivoQry, nomeBaseQry);
 
-    // Criar arquivo TXT de saída
     char caminhoTxt[512];
     snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s.txt", params.dirSaida, nomeBaseGeo, nomeBaseQry);
     FILE *txtOut = fopen(caminhoTxt, "w");
@@ -474,3 +484,4 @@ int main(int argc, char *argv[])
   destruirLista(formas, destruirForma);
 
   return 0;
+}
