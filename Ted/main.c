@@ -74,7 +74,9 @@ void extrairNomeBase(const char *caminho, char *nomeBase)
   char *ultimaBarra = strrchr(nomeBase, '/');
   if (ultimaBarra)
   {
-    memmove(nomeBase, ultimaBarra + 1, strlen(ultimaBarra));
+    // CORREÇÃO: copiar corretamente até o final da string
+    size_t tamanho = strlen(ultimaBarra + 1) + 1; // +1 para incluir o \0
+    memmove(nomeBase, ultimaBarra + 1, tamanho);
   }
 
   // Remove extensão (remove após o último ponto)
@@ -253,15 +255,19 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
-        char caminhoTxt[512];
-        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
-        FILE *txtSufixo = fopen(caminhoTxt, "w");
-        if (txtSufixo)
+        // TXT com sufixo só se sufixo não for "-"
+        if (strcmp(sufixo, "-") != 0)
         {
-          fprintf(txtSufixo, "Região de visibilidade - Bomba de destruição\n");
-          fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
-          fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
-          fclose(txtSufixo);
+          char caminhoTxt[512];
+          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          FILE *txtSufixo = fopen(caminhoTxt, "w");
+          if (txtSufixo)
+          {
+            fprintf(txtSufixo, "Região de visibilidade - Bomba de destruição\n");
+            fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
+            fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
+            fclose(txtSufixo);
+          }
         }
 
         destruirPoligono(regiao);
@@ -309,16 +315,20 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
-        char caminhoTxt[512];
-        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
-        FILE *txtSufixo = fopen(caminhoTxt, "w");
-        if (txtSufixo)
+        // TXT com sufixo só se sufixo não for "-"
+        if (strcmp(sufixo, "-") != 0)
         {
-          fprintf(txtSufixo, "Região de visibilidade - Bomba de pintura\n");
-          fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
-          fprintf(txtSufixo, "Cor: %s\n", cor);
-          fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
-          fclose(txtSufixo);
+          char caminhoTxt[512];
+          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          FILE *txtSufixo = fopen(caminhoTxt, "w");
+          if (txtSufixo)
+          {
+            fprintf(txtSufixo, "Região de visibilidade - Bomba de pintura\n");
+            fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
+            fprintf(txtSufixo, "Cor: %s\n", cor);
+            fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
+            fclose(txtSufixo);
+          }
         }
 
         destruirPoligono(regiao);
@@ -378,16 +388,20 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
-        char caminhoTxt[512];
-        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
-        FILE *txtSufixo = fopen(caminhoTxt, "w");
-        if (txtSufixo)
+        // TXT com sufixo só se sufixo não for "-"
+        if (strcmp(sufixo, "-") != 0)
         {
-          fprintf(txtSufixo, "Região de visibilidade - Bomba de clonagem\n");
-          fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
-          fprintf(txtSufixo, "Deslocamento: (%.2f, %.2f)\n", dx, dy);
-          fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
-          fclose(txtSufixo);
+          char caminhoTxt[512];
+          snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
+          FILE *txtSufixo = fopen(caminhoTxt, "w");
+          if (txtSufixo)
+          {
+            fprintf(txtSufixo, "Região de visibilidade - Bomba de clonagem\n");
+            fprintf(txtSufixo, "Ponto: (%.2f, %.2f)\n", x, y);
+            fprintf(txtSufixo, "Deslocamento: (%.2f, %.2f)\n", dx, dy);
+            fprintf(txtSufixo, "Vértices do polígono: %d\n", regiao->numVertices);
+            fclose(txtSufixo);
+          }
         }
 
         destruirPoligono(regiao);
@@ -430,11 +444,9 @@ int main(int argc, char *argv[])
 
   if (params.arquivoQry)
   {
-    // Construir caminho completo do .qry
     char caminhoQry[512];
     construirCaminho(caminhoQry, params.dirEntrada, params.arquivoQry);
 
-    // Extrair nome base do .qry (sem diretórios, sem extensão)
     char nomeBaseQry[256];
     extrairNomeBase(params.arquivoQry, nomeBaseQry);
 
@@ -443,7 +455,6 @@ int main(int argc, char *argv[])
     snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s.txt", params.dirSaida, nomeBaseGeo, nomeBaseQry);
     FILE *txtOut = fopen(caminhoTxt, "w");
 
-    // CORREÇÃO CRÍTICA: Verificar se o arquivo foi aberto
     if (!txtOut)
     {
       fprintf(stderr, "ERRO: não foi possível criar arquivo de saída: %s\n", caminhoTxt);
@@ -455,7 +466,6 @@ int main(int argc, char *argv[])
 
     fclose(txtOut);
 
-    // Gerar SVG final com as modificações
     char caminhoSvgQry[512];
     snprintf(caminhoSvgQry, sizeof(caminhoSvgQry), "%s/%s-%s.svg", params.dirSaida, nomeBaseGeo, nomeBaseQry);
     gerarSVG(formas, caminhoSvgQry);
@@ -464,4 +474,3 @@ int main(int argc, char *argv[])
   destruirLista(formas, destruirForma);
 
   return 0;
-}
