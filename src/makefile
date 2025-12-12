@@ -4,7 +4,7 @@ LDFLAGS = -lm
 
 SRC = main.c geometria.c lista.c arvore.c visibilidade.c svg.c
 OBJ = $(SRC:.c=.o)
-TARGET = ted.exe
+TARGET = ted
 
 all: $(TARGET)
 
