@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="15963.25" height="10014.42" viewBox="-9315.51 -9534.42 15963.25 10014.42">
+  <defs>
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="visGradient" cx="349.34" cy="-603.42">
+      <stop offset="0%" style="stop-color:#ffeb3b;stop-opacity:0.6" />
+      <stop offset="70%" style="stop-color:#ffc107;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#ff9800;stop-opacity:0.2" />
+    </radialGradient>
+    <filter id="brilho">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+    </filter>
+  </defs>
+
+  <rect x="-9315.51" y="-9534.42" width="15963.25" height="10014.42" fill="url(#bgGradient)"/>
+
+  <!-- Região de visibilidade - Brilho -->
+  <polygon points="-9265.51,-2236.25 -9265.51,-2236.25 70.00,430.00 70.00,430.00 70.11,430.00 70.11,430.00 159.95,430.00 159.95,430.00 160.00,430.00 160.00,430.00 160.00,429.98 160.00,429.98 160.00,393.10 160.00,393.10 160.00,393.08 160.00,393.08 220.03,430.00 220.03,430.00 237.98,430.00 237.98,430.00 238.00,430.00 238.00,430.00 238.02,430.00 238.02,430.00 273.62,430.00 273.64,430.00 273.65,430.00 273.98,430.00 273.98,430.00 274.00,430.00 274.00,430.00 274.02,430.00 274.02,430.00 297.99,430.00 297.99,430.00 298.00,430.00 298.00,430.00 298.01,430.00 298.01,430.00 309.99,430.00 310.00,430.00 250.02,310.00 268.16,310.00 268.16,310.00 268.18,310.00 268.18,310.00 268.21,310.00 268.21,310.00 301.33,310.00 301.35,310.00 301.37,310.00 309.98,310.00 310.00,310.00 -1610.18,-9296.00 15.85,-9484.42 340.00,210.00 340.03,210.00 408.66,210.00 408.70,210.00 408.73,210.00 439.97,210.00 439.97,210.00 440.00,210.00 440.00,210.00 3224.44,-9067.98 3224.44,-9067.98 3260.66,-9057.03 3260.66,-9057.03 490.00,50.00 490.00,50.00 490.00,50.17 490.00,50.17 490.00,209.92 490.00,210.00 564.72,50.00 589.94,50.00 589.94,50.00 590.00,50.00 590.00,50.00 590.00,50.11 590.00,50.11 590.00,209.94 6596.95,-7298.69 6597.73,-7298.06 " fill="url(#visGradient)" stroke="none" filter="url(#brilho)" opacity="0.5"/>
+  <!-- Região de visibilidade - Principal -->
+  <polygon points="-9265.51,-2236.25 -9265.51,-2236.25 70.00,430.00 70.00,430.00 70.11,430.00 70.11,430.00 159.95,430.00 159.95,430.00 160.00,430.00 160.00,430.00 160.00,429.98 160.00,429.98 160.00,393.10 160.00,393.10 160.00,393.08 160.00,393.08 220.03,430.00 220.03,430.00 237.98,430.00 237.98,430.00 238.00,430.00 238.00,430.00 238.02,430.00 238.02,430.00 273.62,430.00 273.64,430.00 273.65,430.00 273.98,430.00 273.98,430.00 274.00,430.00 274.00,430.00 274.02,430.00 274.02,430.00 297.99,430.00 297.99,430.00 298.00,430.00 298.00,430.00 298.01,430.00 298.01,430.00 309.99,430.00 310.00,430.00 250.02,310.00 268.16,310.00 268.16,310.00 268.18,310.00 268.18,310.00 268.21,310.00 268.21,310.00 301.33,310.00 301.35,310.00 301.37,310.00 309.98,310.00 310.00,310.00 -1610.18,-9296.00 15.85,-9484.42 340.00,210.00 340.03,210.00 408.66,210.00 408.70,210.00 408.73,210.00 439.97,210.00 439.97,210.00 440.00,210.00 440.00,210.00 3224.44,-9067.98 3224.44,-9067.98 3260.66,-9057.03 3260.66,-9057.03 490.00,50.00 490.00,50.00 490.00,50.17 490.00,50.17 490.00,209.92 490.00,210.00 564.72,50.00 589.94,50.00 589.94,50.00 590.00,50.00 590.00,50.00 590.00,50.11 590.00,50.11 590.00,209.94 6596.95,-7298.69 6597.73,-7298.06 " fill="url(#visGradient)" stroke="#ff6f00" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Ponto de origem (bomba) -->
+  <circle cx="349.34" cy="-603.42" r="8" fill="#ff3d00" stroke="#b71c1c" stroke-width="2"/>
+  <circle cx="349.34" cy="-603.42" r="12" fill="none" stroke="#ff6f00" stroke-width="2" opacity="0.6"/>
+  <circle cx="349.34" cy="-603.42" r="16" fill="none" stroke="#ffa726" stroke-width="1" opacity="0.4"/>
+
+  <!-- Raios de visibilidade -->
+  <g opacity="0.15">
+    <line x1="349.34" y1="-603.42" x2="-9265.51" y2="-2236.25" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="70.00" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="159.95" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="160.00" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="160.00" y2="393.10" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="160.00" y2="393.08" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="237.98" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="238.00" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="273.62" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="273.98" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="274.00" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="297.99" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="298.00" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="309.99" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="268.16" y2="310.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="268.18" y2="310.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="301.33" y2="310.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="309.98" y2="310.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="15.85" y2="-9484.42" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="408.66" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="439.97" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="440.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="3260.66" y2="-9057.03" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="490.00" y2="50.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="490.00" y2="209.92" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="589.94" y2="50.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="590.00" y2="50.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="349.34" y1="-603.42" x2="590.00" y2="209.94" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+  </g>
+</svg>

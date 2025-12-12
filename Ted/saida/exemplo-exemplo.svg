@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="820.00" height="720.00" viewBox="-20.00 -120.00 820.00 720.00">
+  <!-- Fundo -->
+  <rect x="-20.00" y="-120.00" width="820.00" height="720.00" fill="#f8f9fa" stroke="none"/>
+
+  <!-- Definições de efeitos -->
+  <defs>
+    <filter id="sombra" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Formas geométricas -->
+  <rect x="50.00" y="50.00" width="80.00" height="120.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="650.00" y="50.00" width="85.00" height="150.00" stroke="brown" fill="wheat" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="380.00" y="340.00" width="95.00" height="130.00" stroke="yellow" fill="yellow" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="200.00" y="400.00" width="50.00" height="60.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="270.00" y="420.00" width="55.00" height="50.00" stroke="crimson" fill="pink" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="350.00" y="410.00" width="45.00" height="55.00" stroke="yellow" fill="yellow" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="420.00" y="400.00" width="50.00" height="65.00" stroke="yellow" fill="yellow" stroke-width="2" filter="url(#sombra)"/>
+  <line x1="30.00" y1="380.00" x2="750.00" y2="380.00" stroke="yellow" stroke-width="2" />
+  <line x1="300.00" y1="30.00" x2="300.00" y2="550.00" stroke="darkgray" stroke-width="2" />
+  <line x1="100.00" y1="100.00" x2="400.00" y2="100.00" stroke="blue" stroke-width="2" />
+  <line x1="150.00" y1="300.00" x2="650.00" y2="300.00" stroke="yellow" stroke-width="2" />
+  <line x1="50.00" y1="450.00" x2="450.00" y2="450.00" stroke="blue" stroke-width="2" />
+  <line x1="260.00" y1="140.00" x2="260.00" y2="290.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="140.00" y1="290.00" x2="260.00" y2="290.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="340.00" y1="210.00" x2="440.00" y2="210.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="440.00" y1="50.00" x2="440.00" y2="210.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="70.00" y1="430.00" x2="160.00" y2="430.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="160.00" y1="310.00" x2="160.00" y2="430.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="280.00" y1="250.00" x2="320.00" y2="250.00" stroke="blue" stroke-width="2" />
+  <line x1="600.00" y1="150.00" x2="640.00" y2="150.00" stroke="steelblue" stroke-width="2" />
+  <text x="90.00" y="30.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">EDIFICIO CENTRAL</text>
+  <text x="390.00" y="40.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">TORRE PRINCIPAL</text>
+  <text x="720.00" y="30.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="white" fill="brown" filter="url(#sombra)">RESIDENCIAL NORTE</text>
+  <text x="110.00" y="300.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">EDIFICIO SUL</text>
+  <text x="420.00" y="320.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="yellow" fill="yellow" filter="url(#sombra)">CENTRO EMPRESARIAL</text>
+  <text x="230.00" y="380.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="start" stroke="black" fill="orange" filter="url(#sombra)">CASA 1</text>
+  <text x="305.00" y="400.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="start" stroke="black" fill="crimson" filter="url(#sombra)">CASA 2</text>
+  <text x="385.00" y="390.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="start" stroke="yellow" fill="yellow" filter="url(#sombra)">CASA 3</text>
+  <text x="200.00" y="130.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">PARQUE</text>
+  <circle cx="100.00" cy="500.00" r="15.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <circle cx="200.00" cy="520.00" r="15.00" stroke="blue" fill="lightblue" stroke-width="2" filter="url(#sombra)"/>
+  <circle cx="300.00" cy="510.00" r="15.00" stroke="yellow" fill="yellow" stroke-width="2" filter="url(#sombra)"/>
+  <circle cx="400.00" cy="500.00" r="15.00" stroke="yellow" fill="yellow" stroke-width="2" filter="url(#sombra)"/>
+  <circle cx="600.00" cy="200.00" r="45.00" stroke="darkblue" fill="lightblue" stroke-width="2" filter="url(#sombra)"/>
+  <circle cx="630.00" cy="230.00" r="25.00" stroke="blue" fill="lightcyan" stroke-width="2" filter="url(#sombra)"/>
+  <circle cx="700.00" cy="180.00" r="30.00" stroke="navy" fill="azure" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="200.00" y="50.00" width="80.00" height="120.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="230.00" y="320.00" width="75.00" height="100.00" stroke="red" fill="red" stroke-width="2" filter="url(#sombra)"/>
+  <line x1="590.00" y1="50.00" x2="590.00" y2="210.00" stroke="red" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="220.00" y1="310.00" x2="310.00" y2="310.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="220.00" y1="310.00" x2="220.00" y2="430.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="220.00" y1="430.00" x2="310.00" y2="430.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <text x="240.00" y="30.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">EDIFICIO CENTRAL</text>
+  <text x="540.00" y="40.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="yellow" fill="yellow" filter="url(#sombra)">TORRE PRINCIPAL</text>
+  <text x="690.00" y="60.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="red" fill="red" filter="url(#sombra)">PREDIO COMERCIAL</text>
+  <text x="260.00" y="300.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="red" fill="red" filter="url(#sombra)">EDIFICIO SUL</text>
+  <rect x="50.00" y="-50.00" width="80.00" height="120.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="80.00" y="220.00" width="75.00" height="100.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <line x1="300.00" y1="-70.00" x2="300.00" y2="450.00" stroke="darkgray" stroke-width="2" />
+  <line x1="100.00" y1="0.00" x2="400.00" y2="0.00" stroke="blue" stroke-width="2" />
+  <line x1="260.00" y1="40.00" x2="260.00" y2="190.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="140.00" y1="190.00" x2="260.00" y2="190.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="340.00" y1="110.00" x2="440.00" y2="110.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="440.00" y1="-50.00" x2="440.00" y2="110.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="70.00" y1="210.00" x2="160.00" y2="210.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="70.00" y1="210.00" x2="70.00" y2="330.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="160.00" y1="210.00" x2="160.00" y2="330.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="600.00" y1="50.00" x2="640.00" y2="50.00" stroke="steelblue" stroke-width="2" />
+  <text x="90.00" y="-70.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">EDIFICIO CENTRAL</text>
+  <text x="390.00" y="-60.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">TORRE PRINCIPAL</text>
+  <text x="540.00" y="-40.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="yellow" fill="yellow" filter="url(#sombra)">PREDIO COMERCIAL</text>
+  <text x="720.00" y="-70.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="white" fill="brown" filter="url(#sombra)">RESIDENCIAL NORTE</text>
+  <text x="110.00" y="200.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">EDIFICIO SUL</text>
+  <text x="230.00" y="280.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="start" stroke="black" fill="orange" filter="url(#sombra)">CASA 1</text>
+  <text x="200.00" y="30.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">PARQUE</text>
+  <rect x="200.00" y="-50.00" width="80.00" height="120.00" stroke="blue" fill="blue" stroke-width="2" filter="url(#sombra)"/>
+  <rect x="230.00" y="220.00" width="75.00" height="100.00" stroke="red" fill="red" stroke-width="2" filter="url(#sombra)"/>
+  <line x1="490.00" y1="-50.00" x2="590.00" y2="-50.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="490.00" y1="-50.00" x2="490.00" y2="110.00" stroke="yellow" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="590.00" y1="-50.00" x2="590.00" y2="110.00" stroke="red" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <line x1="220.00" y1="210.00" x2="220.00" y2="330.00" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <text x="240.00" y="-70.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">EDIFICIO CENTRAL</text>
+  <text x="540.00" y="-60.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="blue" fill="blue" filter="url(#sombra)">TORRE PRINCIPAL</text>
+  <text x="690.00" y="-40.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="red" fill="red" filter="url(#sombra)">PREDIO COMERCIAL</text>
+  <text x="260.00" y="200.00" font-family="sans-serif" font-size="12" font-weight="normal" text-anchor="middle" stroke="red" fill="red" filter="url(#sombra)">EDIFICIO SUL</text>
+</svg>

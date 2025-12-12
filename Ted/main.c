@@ -64,6 +64,27 @@ void construirCaminho(char *destino, const char *dir, const char *arquivo)
   snprintf(destino, 512, "%s/%s", dir, arquivo);
 }
 
+// Extrai apenas o nome base do arquivo sem diretórios e sem extensão
+void extrairNomeBase(const char *caminho, char *nomeBase)
+{
+  // Copia o caminho
+  strcpy(nomeBase, caminho);
+
+  // Remove diretórios (pega após a última barra)
+  char *ultimaBarra = strrchr(nomeBase, '/');
+  if (ultimaBarra)
+  {
+    memmove(nomeBase, ultimaBarra + 1, strlen(ultimaBarra));
+  }
+
+  // Remove extensão (remove após o último ponto)
+  char *ponto = strrchr(nomeBase, '.');
+  if (ponto)
+  {
+    *ponto = '\0';
+  }
+}
+
 void processarArquivoGeo(const char *caminhoGeo, Lista *formas, EstiloTexto *estilo)
 {
   FILE *arquivo = fopen(caminhoGeo, "r");
@@ -154,8 +175,8 @@ void processarArquivoGeo(const char *caminhoGeo, Lista *formas, EstiloTexto *est
   fclose(arquivo);
 }
 
-void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
-                         const char *nomeQry, Lista *formas,
+void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
+                         const char *nomeBaseQry, Lista *formas,
                          const char *dirSaida, FILE *txtOut)
 {
   FILE *arquivo = fopen(caminhoQry, "r");
@@ -224,16 +245,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         char caminhoSvg[512];
         if (strcmp(sufixo, "-") == 0)
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry);
         }
         else
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
         char caminhoTxt[512];
-        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
+        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
         FILE *txtSufixo = fopen(caminhoTxt, "w");
         if (txtSufixo)
         {
@@ -280,16 +301,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         char caminhoSvg[512];
         if (strcmp(sufixo, "-") == 0)
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry);
         }
         else
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
         char caminhoTxt[512];
-        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
+        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
         FILE *txtSufixo = fopen(caminhoTxt, "w");
         if (txtSufixo)
         {
@@ -349,16 +370,16 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBase,
         char caminhoSvg[512];
         if (strcmp(sufixo, "-") == 0)
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBase, nomeQry);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry);
         }
         else
         {
-          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBase, nomeQry, sufixo);
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
         }
         desenharRegiaoVisibilidade(regiao, caminhoSvg);
 
         char caminhoTxt[512];
-        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBase, nomeQry, sufixo);
+        snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s-%s.txt", dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
         FILE *txtSufixo = fopen(caminhoTxt, "w");
         if (txtSufixo)
         {
@@ -389,37 +410,37 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  // Construir caminho completo do .geo
   char caminhoGeo[512];
   construirCaminho(caminhoGeo, params.dirEntrada, params.arquivoGeo);
 
-  char nomeBase[256];
-  strcpy(nomeBase, params.arquivoGeo);
-  char *ponto = strrchr(nomeBase, '.');
-  if (ponto)
-    *ponto = '\0';
+  // Extrair nome base do .geo (sem diretórios, sem extensão)
+  char nomeBaseGeo[256];
+  extrairNomeBase(params.arquivoGeo, nomeBaseGeo);
 
   Lista *formas = criarLista();
   EstiloTexto estilo = {"sans", "n", 12};
 
   processarArquivoGeo(caminhoGeo, formas, &estilo);
 
+  // Gerar SVG inicial
   char caminhoSvgGeo[512];
-  snprintf(caminhoSvgGeo, sizeof(caminhoSvgGeo), "%s/%s.svg", params.dirSaida, nomeBase);
+  snprintf(caminhoSvgGeo, sizeof(caminhoSvgGeo), "%s/%s.svg", params.dirSaida, nomeBaseGeo);
   gerarSVG(formas, caminhoSvgGeo);
 
   if (params.arquivoQry)
   {
+    // Construir caminho completo do .qry
     char caminhoQry[512];
     construirCaminho(caminhoQry, params.dirEntrada, params.arquivoQry);
 
-    char nomeQry[256];
-    strcpy(nomeQry, params.arquivoQry);
-    ponto = strrchr(nomeQry, '.');
-    if (ponto)
-      *ponto = '\0';
+    // Extrair nome base do .qry (sem diretórios, sem extensão)
+    char nomeBaseQry[256];
+    extrairNomeBase(params.arquivoQry, nomeBaseQry);
 
+    // Criar arquivo TXT de saída
     char caminhoTxt[512];
-    snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s.txt", params.dirSaida, nomeBase, nomeQry);
+    snprintf(caminhoTxt, sizeof(caminhoTxt), "%s/%s-%s.txt", params.dirSaida, nomeBaseGeo, nomeBaseQry);
     FILE *txtOut = fopen(caminhoTxt, "w");
 
     // CORREÇÃO CRÍTICA: Verificar se o arquivo foi aberto
@@ -430,12 +451,13 @@ int main(int argc, char *argv[])
       return 1;
     }
 
-    processarArquivoQry(caminhoQry, nomeBase, nomeQry, formas, params.dirSaida, txtOut);
+    processarArquivoQry(caminhoQry, nomeBaseGeo, nomeBaseQry, formas, params.dirSaida, txtOut);
 
     fclose(txtOut);
 
+    // Gerar SVG final com as modificações
     char caminhoSvgQry[512];
-    snprintf(caminhoSvgQry, sizeof(caminhoSvgQry), "%s/%s-%s.svg", params.dirSaida, nomeBase, nomeQry);
+    snprintf(caminhoSvgQry, sizeof(caminhoSvgQry), "%s/%s-%s.svg", params.dirSaida, nomeBaseGeo, nomeBaseQry);
     gerarSVG(formas, caminhoSvgQry);
   }
 

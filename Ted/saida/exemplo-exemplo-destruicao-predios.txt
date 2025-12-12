@@ -1,0 +1,3 @@
+Região de visibilidade - Bomba de destruição
+Ponto: (390.00, 130.00)
+Vértices do polígono: 96

@@ -1,0 +1,4 @@
+Região de visibilidade - Bomba de pintura
+Ponto: (500.00, 100.00)
+Cor: yellow
+Vértices do polígono: 138

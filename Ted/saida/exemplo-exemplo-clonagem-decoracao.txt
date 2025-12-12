@@ -1,0 +1,4 @@
+Região de visibilidade - Bomba de clonagem
+Ponto: (350.00, 510.00)
+Deslocamento: (0.00, -100.00)
+Vértices do polígono: 84

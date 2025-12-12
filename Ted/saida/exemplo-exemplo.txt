@@ -1,0 +1,183 @@
+Transformando formas 26-29 em anteparos (h)
+  Forma 26 transformada em anteparo (h)
+  Forma 27 transformada em anteparo (h)
+  Forma 28 transformada em anteparo (h)
+  Forma 29 transformada em anteparo (h)
+Transformando formas 30-33 em anteparos (v)
+  Forma 30 transformada em anteparo (v)
+  Forma 31 transformada em anteparo (v)
+  Forma 32 transformada em anteparo (v)
+  Forma 33 transformada em anteparo (v)
+Transformando formas 34-37 em anteparos (h)
+  Forma 34 transformada em anteparo (h)
+  Forma 35 transformada em anteparo (h)
+  Forma 36 transformada em anteparo (h)
+  Forma 37 transformada em anteparo (h)
+
+Bomba de destruição em (200.00, 200.00)
+Formas destruídas:
+  ID: 1, Tipo: Círculo
+  ID: 2, Tipo: Círculo
+  ID: 3, Tipo: Círculo
+  ID: 4, Tipo: Círculo
+  ID: 5, Tipo: Círculo
+  ID: 6, Tipo: Círculo
+  ID: 26, Tipo: Segmento
+  ID: 29, Tipo: Segmento
+
+Bomba de pintura em (400.00, 250.00) - cor: red
+Formas pintadas:
+  ID: 7, Tipo: Retângulo
+  ID: 8, Tipo: Retângulo
+  ID: 11, Tipo: Retângulo
+  ID: 19, Tipo: Linha
+  ID: 23, Tipo: Linha
+  ID: 28, Tipo: Segmento
+  ID: 30, Tipo: Segmento
+  ID: 32, Tipo: Segmento
+  ID: 33, Tipo: Segmento
+  ID: 34, Tipo: Segmento
+  ID: 35, Tipo: Segmento
+  ID: 36, Tipo: Segmento
+  ID: 41, Tipo: Texto
+  ID: 42, Tipo: Texto
+  ID: 43, Tipo: Texto
+  ID: 45, Tipo: Texto
+  ID: 51, Tipo: Texto
+  ID: 52, Tipo: Texto
+
+Bomba de clonagem em (300.00, 420.00) - deslocamento: (150.00, 0.00)
+Formas clonadas:
+  Original ID: 7, Clone ID: 63
+  Original ID: 8, Clone ID: 64
+  Original ID: 11, Clone ID: 65
+  Original ID: 19, Clone ID: 66
+  Original ID: 23, Clone ID: 67
+  Original ID: 30, Clone ID: 68
+  Original ID: 32, Clone ID: 69
+  Original ID: 33, Clone ID: 70
+  Original ID: 34, Clone ID: 71
+  Original ID: 35, Clone ID: 72
+  Original ID: 36, Clone ID: 73
+  Original ID: 41, Clone ID: 74
+  Original ID: 42, Clone ID: 75
+  Original ID: 43, Clone ID: 76
+  Original ID: 45, Clone ID: 77
+  Original ID: 51, Clone ID: 78
+  Original ID: 52, Clone ID: 79
+
+Bomba de destruição em (390.00, 130.00)
+Formas destruídas:
+  ID: 8, Tipo: Retângulo
+  ID: 19, Tipo: Linha
+  ID: 30, Tipo: Segmento
+  ID: 32, Tipo: Segmento
+  ID: 52, Tipo: Texto
+  ID: 67, Tipo: Linha
+  ID: 78, Tipo: Texto
+
+Bomba de pintura em (630.00, 200.00) - cor: blue
+Formas pintadas:
+  ID: 7, Tipo: Retângulo
+  ID: 9, Tipo: Retângulo
+  ID: 11, Tipo: Retângulo
+  ID: 15, Tipo: Retângulo
+  ID: 23, Tipo: Linha
+  ID: 25, Tipo: Linha
+  ID: 27, Tipo: Segmento
+  ID: 28, Tipo: Segmento
+  ID: 31, Tipo: Segmento
+  ID: 33, Tipo: Segmento
+  ID: 34, Tipo: Segmento
+  ID: 35, Tipo: Segmento
+  ID: 36, Tipo: Segmento
+  ID: 37, Tipo: Segmento
+  ID: 38, Tipo: Linha
+  ID: 41, Tipo: Texto
+  ID: 42, Tipo: Texto
+  ID: 43, Tipo: Texto
+  ID: 45, Tipo: Texto
+  ID: 51, Tipo: Texto
+  ID: 54, Tipo: Círculo
+  ID: 63, Tipo: Retângulo
+  ID: 64, Tipo: Retângulo
+  ID: 66, Tipo: Linha
+  ID: 68, Tipo: Segmento
+  ID: 69, Tipo: Segmento
+  ID: 71, Tipo: Segmento
+  ID: 72, Tipo: Segmento
+  ID: 73, Tipo: Segmento
+  ID: 74, Tipo: Texto
+  ID: 75, Tipo: Texto
+  ID: 79, Tipo: Texto
+
+Bomba de clonagem em (350.00, 510.00) - deslocamento: (0.00, -100.00)
+Formas clonadas:
+  Original ID: 7, Clone ID: 80
+  Original ID: 11, Clone ID: 81
+  Original ID: 21, Clone ID: 82
+  Original ID: 23, Clone ID: 83
+  Original ID: 27, Clone ID: 84
+  Original ID: 28, Clone ID: 85
+  Original ID: 31, Clone ID: 86
+  Original ID: 33, Clone ID: 87
+  Original ID: 34, Clone ID: 88
+  Original ID: 35, Clone ID: 89
+  Original ID: 37, Clone ID: 90
+  Original ID: 40, Clone ID: 91
+  Original ID: 41, Clone ID: 92
+  Original ID: 42, Clone ID: 93
+  Original ID: 43, Clone ID: 94
+  Original ID: 44, Clone ID: 95
+  Original ID: 45, Clone ID: 96
+  Original ID: 48, Clone ID: 97
+  Original ID: 51, Clone ID: 98
+  Original ID: 63, Clone ID: 99
+  Original ID: 65, Clone ID: 100
+  Original ID: 68, Clone ID: 101
+  Original ID: 69, Clone ID: 102
+  Original ID: 70, Clone ID: 103
+  Original ID: 72, Clone ID: 104
+  Original ID: 74, Clone ID: 105
+  Original ID: 75, Clone ID: 106
+  Original ID: 76, Clone ID: 107
+  Original ID: 77, Clone ID: 108
+
+Bomba de destruição em (500.00, 100.00)
+Formas destruídas:
+  ID: 9, Tipo: Retângulo
+  ID: 13, Tipo: Retângulo
+  ID: 14, Tipo: Retângulo
+  ID: 22, Tipo: Linha
+  ID: 39, Tipo: Linha
+  ID: 43, Tipo: Texto
+  ID: 47, Tipo: Texto
+  ID: 53, Tipo: Texto
+  ID: 58, Tipo: Círculo
+  ID: 59, Tipo: Círculo
+  ID: 64, Tipo: Retângulo
+  ID: 66, Tipo: Linha
+  ID: 68, Tipo: Segmento
+  ID: 69, Tipo: Segmento
+  ID: 79, Tipo: Texto
+
+Bomba de pintura em (500.00, 100.00) - cor: yellow
+Formas pintadas:
+  ID: 12, Tipo: Retângulo
+  ID: 17, Tipo: Retângulo
+  ID: 18, Tipo: Retângulo
+  ID: 20, Tipo: Linha
+  ID: 24, Tipo: Linha
+  ID: 46, Tipo: Texto
+  ID: 50, Tipo: Texto
+  ID: 56, Tipo: Círculo
+  ID: 57, Tipo: Círculo
+  ID: 75, Tipo: Texto
+  ID: 94, Tipo: Texto
+  ID: 102, Tipo: Segmento
+
+Bomba de destruição em (100.00, 370.00)
+Formas destruídas:
+  ID: 11, Tipo: Retângulo
+  ID: 34, Tipo: Segmento
+  ID: 35, Tipo: Segmento

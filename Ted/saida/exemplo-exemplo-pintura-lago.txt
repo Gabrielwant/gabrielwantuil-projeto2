@@ -1,0 +1,4 @@
+Região de visibilidade - Bomba de pintura
+Ponto: (630.00, 200.00)
+Cor: blue
+Vértices do polígono: 84

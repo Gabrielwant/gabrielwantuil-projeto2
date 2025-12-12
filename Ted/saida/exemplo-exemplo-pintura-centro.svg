@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="15171.17" height="13171.16" viewBox="-7649.40 -6870.36 15171.17 13171.16">
+  <defs>
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="visGradient" cx="264.47" cy="234.02">
+      <stop offset="0%" style="stop-color:#ffeb3b;stop-opacity:0.6" />
+      <stop offset="70%" style="stop-color:#ffc107;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#ff9800;stop-opacity:0.2" />
+    </radialGradient>
+    <filter id="brilho">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+    </filter>
+  </defs>
+
+  <rect x="-7649.40" y="-6870.36" width="15171.17" height="13171.16" fill="url(#bgGradient)"/>
+
+  <!-- Região de visibilidade - Brilho -->
+  <polygon points="260.00,156.69 260.00,156.69 340.00,210.00 340.00,210.00 340.01,210.00 340.01,210.00 349.08,210.00 349.09,210.00 349.10,210.00 388.00,210.00 388.00,210.00 388.00,210.00 388.00,210.00 388.00,210.00 388.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 439.99,210.00 439.99,210.00 440.00,210.00 440.00,210.00 7471.77,-6820.36 7471.77,-6820.36 -7599.40,6250.80 -7599.40,6250.80 160.00,430.00 160.00,430.00 160.00,429.96 160.00,429.96 160.00,380.94 160.00,380.94 160.00,380.91 160.00,380.91 160.00,380.88 160.00,380.88 160.00,318.60 160.00,318.60 160.00,318.57 160.00,318.57 260.00,289.98 260.00,289.98 260.00,285.01 260.00,285.01 260.00,285.00 260.00,285.00 260.00,284.99 260.00,284.99 260.00,275.47 260.00,275.47 260.00,275.45 260.00,275.45 260.00,275.44 260.00,275.44 260.00,271.55 260.00,271.54 260.00,271.52 " fill="url(#visGradient)" stroke="none" filter="url(#brilho)" opacity="0.5"/>
+  <!-- Região de visibilidade - Principal -->
+  <polygon points="260.00,156.69 260.00,156.69 340.00,210.00 340.00,210.00 340.01,210.00 340.01,210.00 349.08,210.00 349.09,210.00 349.10,210.00 388.00,210.00 388.00,210.00 388.00,210.00 388.00,210.00 388.00,210.00 388.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 408.00,210.00 439.99,210.00 439.99,210.00 440.00,210.00 440.00,210.00 7471.77,-6820.36 7471.77,-6820.36 -7599.40,6250.80 -7599.40,6250.80 160.00,430.00 160.00,430.00 160.00,429.96 160.00,429.96 160.00,380.94 160.00,380.94 160.00,380.91 160.00,380.91 160.00,380.88 160.00,380.88 160.00,318.60 160.00,318.60 160.00,318.57 160.00,318.57 260.00,289.98 260.00,289.98 260.00,285.01 260.00,285.01 260.00,285.00 260.00,285.00 260.00,284.99 260.00,284.99 260.00,275.47 260.00,275.47 260.00,275.45 260.00,275.45 260.00,275.44 260.00,275.44 260.00,271.55 260.00,271.54 260.00,271.52 " fill="url(#visGradient)" stroke="#ff6f00" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Ponto de origem (bomba) -->
+  <circle cx="264.47" cy="234.02" r="8" fill="#ff3d00" stroke="#b71c1c" stroke-width="2"/>
+  <circle cx="264.47" cy="234.02" r="12" fill="none" stroke="#ff6f00" stroke-width="2" opacity="0.6"/>
+  <circle cx="264.47" cy="234.02" r="16" fill="none" stroke="#ffa726" stroke-width="1" opacity="0.4"/>
+
+  <!-- Raios de visibilidade -->
+  <g opacity="0.15">
+    <line x1="264.47" y1="234.02" x2="260.00" y2="156.69" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="340.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="349.08" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="388.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="388.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="408.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="408.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="439.99" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="440.00" y2="210.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="-7599.40" y2="6250.80" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="160.00" y2="430.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="160.00" y2="380.94" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="160.00" y2="380.91" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="160.00" y2="318.60" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="160.00" y2="318.57" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="260.00" y2="285.01" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="260.00" y2="285.00" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="260.00" y2="275.47" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="260.00" y2="275.45" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="264.47" y1="234.02" x2="260.00" y2="271.55" stroke="#ff9800" stroke-width="1" stroke-dasharray="5,5"/>
+  </g>
+</svg>
