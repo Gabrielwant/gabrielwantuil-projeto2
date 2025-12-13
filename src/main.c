@@ -248,8 +248,17 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
         }
 
         // Desenhar região de visibilidade
-        if (strcmp(sufixo, "-") != 0)
+        if (strcmp(sufixo, "-") == 0)
         {
+          // Sufixo "-": desenha no SVG final principal
+          char caminhoSvg[512];
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg",
+                   dirSaida, nomeBaseGeo, nomeBaseQry);
+          gerarSVGComVisibilidade(formas, regiao, caminhoSvg);
+        }
+        else
+        {
+          // Sufixo diferente: cria arquivo separado
           char caminhoSvg[512];
           snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg",
                    dirSaida, nomeBaseGeo, nomeBaseQry, sufixo);
@@ -313,7 +322,15 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
           fprintf(txtOut, "  Nenhuma forma pintada\n");
         }
 
-        if (strcmp(sufixo, "-") != 0)
+        if (strcmp(sufixo, "-") == 0)
+        {
+          // Sufixo "-": desenha no SVG final principal
+          char caminhoSvg[512];
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg",
+                   dirSaida, nomeBaseGeo, nomeBaseQry);
+          gerarSVGComVisibilidade(formas, regiao, caminhoSvg);
+        }
+        else
         {
           char caminhoSvg[512];
           snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg",
@@ -396,7 +413,15 @@ void processarArquivoQry(const char *caminhoQry, const char *nomeBaseGeo,
         }
         free(clones);
 
-        if (strcmp(sufixo, "-") != 0)
+        if (strcmp(sufixo, "-") == 0)
+        {
+          // Sufixo "-": desenha no SVG final principal
+          char caminhoSvg[512];
+          snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s.svg",
+                   dirSaida, nomeBaseGeo, nomeBaseQry);
+          gerarSVGComVisibilidade(formas, regiao, caminhoSvg);
+        }
+        else
         {
           char caminhoSvg[512];
           snprintf(caminhoSvg, sizeof(caminhoSvg), "%s/%s-%s-%s.svg",
@@ -476,9 +501,21 @@ int main(int argc, char *argv[])
 
     fclose(txtOut);
 
+    // SVG final APENAS se não usou sufixo "-" (se usou, já foi gerado dentro do processamento)
     char caminhoSvgQry[512];
     snprintf(caminhoSvgQry, sizeof(caminhoSvgQry), "%s/%s-%s.svg", params.dirSaida, nomeBaseGeo, nomeBaseQry);
-    gerarSVG(formas, caminhoSvgQry);
+
+    // Verifica se o arquivo já foi criado (se teve sufixo "-")
+    FILE *testeExiste = fopen(caminhoSvgQry, "r");
+    if (!testeExiste)
+    {
+      // Não existe ainda, cria sem polígono
+      gerarSVG(formas, caminhoSvgQry);
+    }
+    else
+    {
+      fclose(testeExiste);
+    }
   }
 
   destruirLista(formas, destruirForma);
